@@ -23,7 +23,7 @@ corners = np.array([[0.0,0.0], [0.0,room_width], [room_length,room_width], [room
 #room = pra.Room.from_corners(corners)
 
 # specify signal source
-fs, signal = wavfile.read("white_noise96.wav")
+fs, signal = wavfile.read("sounds/white_noise96.wav")
 
 window_size = 1024
 signal = signal[0:window_size*4]
@@ -100,7 +100,7 @@ for z_coord in zs:
             #np.savetxt(filename, mic_channels, delimiter=',')
 
 
-np.savez("white_noise_dataset.npz", audio_data=audio_data, pos_data=pos_data)
+np.savez("dataset.npz", audio_data=audio_data, pos_data=pos_data)
 
 plt.figure()
 #plt.subplot(9,1,1)

@@ -29,8 +29,7 @@ def xcorr_freq(s1,s2):
     f_s = f_s / denom  # This line is the only difference between GCC-PHAT and normal cross correlation
     return np.abs(ifft(f_s))[1:]
 
-dataset = np.load("white_noise_dataset.npz")
-#dataset = np.load("audio_data.npz")
+dataset = np.load("dataset.npz")
 
 audio_images = dataset["audio_data"]
 responses = dataset["pos_data"]
@@ -103,7 +102,7 @@ model.compile(loss='mse',
 
 model.fit(x=audio_images,
           y=responses,
-          epochs=10
+          epochs=10,
           batch_size=16,
           shuffle=True,
           validation_split=0.1,
