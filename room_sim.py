@@ -60,10 +60,10 @@ R = np.array([[fl_x+array_size, fl_x+array_size, fl_x+array_size, fl_x+array_siz
 #exit(1)
 
 # create the test points
-x_scale, y_scale, z_scale = .25, .25, .25
-xs = np.arange(np.max(R[0])+0.5, 9, x_scale)
-ys = np.arange(               1, 6, y_scale)
-zs = np.arange(             0.5, 2, z_scale)
+x_scale, y_scale, z_scale = .25, .25, .1
+xs = np.arange(np.max(R[0])+0.5, 9.0, x_scale)
+ys = np.arange(               1, 6.0, y_scale)
+zs = np.arange(               0, 2.2, z_scale)
 
 num_mic_channels = len(R[0])
 total_frames = len(xs)*len(ys)*len(zs)
@@ -72,6 +72,7 @@ audio_data = np.zeros((total_frames, num_mic_channels, audio_data_length))
 pos_data = np.zeros((total_frames, 3))
 frame = 0
 
+print("Datapoints x:%d y:%d z:%d" % (len(xs), len(ys), len(zs)))
 print("Generating %d frames" % (total_frames))
 print("image shape:", np.shape(audio_data))
 print("pos shape:", np.shape(pos_data))
