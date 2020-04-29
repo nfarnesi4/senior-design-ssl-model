@@ -71,6 +71,7 @@ audio_images = audio_images.reshape([-1,mics,window_size,1])
   #print ('Features: {}, Target: {}'.format(str(feat.shape), targ))
 
 #dataset.batch(batch_size)
+
 #layers = [
     #imageInputLayer([height width channels])
 
@@ -94,7 +95,6 @@ model.add(Dense(window_size))
 #model.add(Dropout(0.2))
 model.add(Dense(3))
 
-
 print(model.summary)
 model.compile(loss='mse',
               optimizer=keras.optimizers.Adadelta(),
@@ -102,7 +102,7 @@ model.compile(loss='mse',
 
 model.fit(x=audio_images,
           y=responses,
-          epochs=10,
+          epochs=5,
           batch_size=16,
           shuffle=True,
           validation_split=0.1,
