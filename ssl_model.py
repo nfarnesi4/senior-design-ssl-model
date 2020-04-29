@@ -97,12 +97,12 @@ model.add(Dense(3))
 
 print(model.summary)
 model.compile(loss='mse',
-              optimizer=keras.optimizers.Adadelta(),
+              optimizer=keras.optimizers.Adadelta(learning_rate=0.25),
               metrics=['mae'])
 
 model.fit(x=audio_images,
           y=responses,
-          epochs=5,
+          epochs=2,
           batch_size=16,
           shuffle=True,
           validation_split=0.1,
