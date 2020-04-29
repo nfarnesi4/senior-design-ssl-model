@@ -46,9 +46,12 @@ R = np.array([[fl_x+array_size, fl_x+array_size, fl_x+array_size, fl_x+array_siz
               [1.0000         , 1.0000         , 0.0000         , 0.0000         , 1.0000,  1.0000         , 0.0000, 0.0000         ]])  # [[x], [y], [z]]
 
 #plt.figure()
-#plt.plot(corners[:][0], corners[:][1], '-o')
+#plt.title("Bossone 302 Simulation: Top Down View")
+#plt.plot(np.append(corners[:][0], corners[0][0]),
+         #np.append(corners[:][1], corners[0][1]), '-o')
 #plt.scatter(R[:][0], R[:][1], color='green')
-#plt.plot([3, 3, 9, 9], [1, 6, 6, 1], '-o')
+#plt.plot([3, 3, 9, 9, 3], [1, 6, 6, 1, 1], '-o')
+#plt.legend(["floor plan", 'training set boarder', "mic array base"])
 
 #fig = plt.figure()
 #ax = fig.add_subplot(111, projection='3d')
