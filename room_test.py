@@ -47,20 +47,14 @@ R = np.array([[fl_x+array_size, fl_x+array_size, fl_x+array_size, fl_x+array_siz
               [fl_y           , fl_y+array_size, fl_y           , fl_y+array_size, fl_y  ,  fl_y+array_size, fl_y  , fl_y+array_size],\
               [1.0000         , 1.0000         , 0.0000         , 0.0000         , 1.0000,  1.0000         , 0.0000, 0.0000         ]])  # [[x], [y], [z]]
 
-# create the test points
-x_scale, y_scale, z_scale = .25, .25, .25
-xs = np.arange(np.max(R[0])+0.5, 9, x_scale)
-ys = np.arange(               1, 6, y_scale)
-zs = np.arange(             0.5, 2, z_scale)
-
 total_time_s = 60
 fps = 60
 t = np.linspace(0, total_time_s-1,total_time_s*fps)
 
 r = 2.5
-center_x, center_y = 5.7, 3.6195
+center_x, center_y = 5.7, 3.7
 z_speed = 2/total_time_s
-omega = (2 * 2*pi)/total_time_s
+omega = (2*pi)/total_time_s
 
 x = r * cos(omega*t) + center_x
 y = r * sin(omega*t) + center_y
@@ -75,11 +69,12 @@ plt.title("Bossone 302 Simulation: Top Down View")
 plt.plot(np.append(corners[:][0], corners[0][0]),
          np.append(corners[:][1], corners[0][1]), '-o')
 plt.scatter(R[:][0], R[:][1], color='green')
-plt.plot([3, 3, 9, 9, 3], [1, 6, 6, 1, 1], '-o')
+plt.plot([3, 3, 8.4, 8.4, 3], [1, 6.4, 6.4, 1, 1], '-o')
 plt.scatter(x,y)
 plt.legend(["floor plan", 'training set boarder',
             "mic array base", "test spiral"])
 
+plt.show()
 num_mic_channels = len(R[0])
 total_frames = len(t)
 audio_data_length = window_size
@@ -137,7 +132,7 @@ for ts in range(len(t)):
     #np.savetxt(filename, mic_channels, delimiter=',')
 
 
-np.savez("spiral.npz", audio_data=audio_data, pos_data=pos_data)
+np.savez("spiral_one.npz", audio_data=audio_data, pos_data=pos_data)
 
 plt.figure()
 #plt.subplot(9,1,1)
@@ -164,4 +159,4 @@ for i in range(1):
         plt.xlabel('sample')
         plt.ylabel('amp')
 
-#plt.show()
+plt.show()
