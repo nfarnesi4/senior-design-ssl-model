@@ -31,7 +31,9 @@ def xcorr_freq(s1,s2):
     f_s = f_s / denom  # This line is the only difference between GCC-PHAT and normal cross correlation
     return np.abs(ifft(f_s))[1:]
 
-dataset = np.load("dataset.npz")
+model = keras.models.load_model('ssl_model')
+
+dataset = np.load("spiral_one.npz")
 
 audio_images = dataset["audio_data"]
 responses = dataset["pos_data"]
@@ -51,65 +53,22 @@ for i, image in enumerate(audio_images):
         audio_images[i][chan] = cross[mid_is]
         #audio_images[i][chan][:] = cross[mid_is]
 
-
-for i in range(1):
-    plt.figure()
-    for mic,audio in enumerate(audio_images[i][:]):
-        plt.subplot(8,1,mic+1)
-        plt.plot(audio)
-        plt.title(f'mic {mic}')
-        plt.xlabel('sample')
-        plt.ylabel('amp')
-
-#plt.show()
-
 audio_images = audio_images.reshape([-1,mics,window_size,1])
+responses_p = model.predict(audio_images)
+print(responses_p.shape)
 
-#dataset = tf.data.Dataset.from_tensor_slices((audio_images, responses))
-#dataset = dataset.shuffle(len(audio_images))
+errors = abs(responses-responses_p)
+avg_error = sum(errors)/len(errors)
+print(avg_error)
 
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(responses[:,0], responses[:,1], responses[:,2])
+ax.scatter(responses_p[:,0], responses_p[:,1], responses_p[:,2])
+plt.title('SSL Tracking Test: Spiral')
+plt.legend(['ground truth', 'estimated'])
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('z')
 
-#for feat, targ in dataset.take(5):
-  #print ('Features: {}, Target: {}'.format(str(feat.shape), targ))
-
-#dataset.batch(batch_size)
-
-#layers = [
-    #imageInputLayer([height width channels])
-
-    #convolution2dLayer([1 200], 4, 'padding', 'same')
-    #batchNormalizationLayer
-    #convolution2dLayer([8 40], 6, 'padding', 'same')
-    #fullyConnectedLayer(2*window_size)
-    #%fullyConnectedLayer(window_size)
-    #% output later
-    #dropoutLayer(0.5)
-    #fullyConnectedLayer(3)
-    #regressionLayer
-    #];
-
-model = Sequential()
-model.add(Conv2D(4, (1, 200)))
-model.add(Conv2D(6, (8, 40)))
-model.add(Flatten())
-model.add(Dense(window_size*2))
-model.add(Dense(window_size))
-#model.add(Dropout(0.2))
-model.add(Dense(3))
-
-print(model.summary)
-model.compile(loss='mae',
-              optimizer=keras.optimizers.Adadelta(learning_rate=0.25),
-              metrics=['mse'])
-
-#plot_model(model, to_file='model.png')
-
-history = model.fit(x=audio_images,
-          y=responses,
-          epochs=5,
-          batch_size=16,
-          shuffle=True,
-          validation_split=0.1,
-          verbose=1)
-
-model.save("ssl_model")
+plt.show()
