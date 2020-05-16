@@ -13,6 +13,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import time
 
 from scipy.fftpack import rfft, irfft, fftfreq, fft, ifft
 import copy
@@ -45,6 +46,7 @@ mid = math.floor((2*window_size-1)/2)
 mid2 = math.floor(mid/2)
 mid_is = [i for i in range(mid-mid2,mid+mid2+2)]
 
+start_time = time.time()
 for i, image in enumerate(audio_images):
     first = copy.deepcopy(image[0,:])
     for chan in range(mics):
@@ -55,6 +57,8 @@ for i, image in enumerate(audio_images):
 
 audio_images = audio_images.reshape([-1,mics,window_size,1])
 responses_p = model.predict(audio_images)
+total_time = time.time() - start_time
+print("Average inference time: %f ms" % (1000*total_time/len(responses_p)))
 print(responses_p.shape)
 
 errors = abs(responses-responses_p)
