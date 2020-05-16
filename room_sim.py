@@ -60,9 +60,9 @@ R = np.array([[fl_x+array_size, fl_x+array_size, fl_x+array_size, fl_x+array_siz
 #exit(1)
 
 # create the test points
-x_scale, y_scale, z_scale = .25, .25, .1
-xs = np.arange(np.max(R[0])+0.5, 9.0, x_scale)
-ys = np.arange(               1, 6.0, y_scale)
+x_scale, y_scale, z_scale = .08, .08, .08
+xs = np.arange(np.max(R[0])+0.5, 8.4, x_scale)
+ys = np.arange(               1, 6.4, y_scale)
 zs = np.arange(               0, 2.2, z_scale)
 
 num_mic_channels = len(R[0])
@@ -124,7 +124,7 @@ for z_coord in zs:
             #np.savetxt(filename, mic_channels, delimiter=',')
 
 
-np.savez("dataset.npz", audio_data=audio_data, pos_data=pos_data)
+np.savez("dataset_large.npz", audio_data=audio_data, pos_data=pos_data)
 
 plt.figure()
 #plt.subplot(9,1,1)
