@@ -99,17 +99,30 @@ model.add(Dense(3))
 
 print(model.summary)
 model.compile(loss='mae',
-              optimizer=keras.optimizers.Adadelta(learning_rate=0.25),
+              optimizer=keras.optimizers.Adadelta(learning_rate=0.20),
               metrics=['mse'])
 
 #plot_model(model, to_file='model.png')
 
 history = model.fit(x=audio_images,
           y=responses,
-          epochs=5,
+          epochs=4,
           batch_size=16,
           shuffle=True,
-          validation_split=0.1,
+          validation_split=0.2,
           verbose=1)
 
-model.save("ssl_model")
+print(history.history.keys())
+# summarize history for accuracy
+
+# summarize history for loss
+plt.figure()
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+
+model.save("ssl_model_test")
